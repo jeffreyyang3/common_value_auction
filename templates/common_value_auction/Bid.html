@@ -1,15 +1,16 @@
 {% extends "global/Page.html" %}
-{% load otree %}
+{% load otree static %}
 
 {% block title %}
     Bid
 {% endblock %}
 
 {% block content %}
+<img src="{% static image_path %}" style="max-width: 50%; max-height: 50%">
 
     <p>
-        The value of the item is estimated to be {{ player.item_value_estimate }}.
-        This estimate may deviate from the actual value by at most {{ Constants.estimate_error_margin }}.
+        The value of the item is estimated to be {{ group.valueEstimate }}.
+
     </p>
 
     <p>

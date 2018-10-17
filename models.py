@@ -3,7 +3,7 @@ from otree.api import (
     Currency as c, currency_range
 )
 import random
-
+from . import config as config_py
 doc = """
 In a common value auction game, players simultaneously bid on the item being
 auctioned.<br/>
@@ -15,35 +15,37 @@ payoff depends on the bid amount and the actual value.<br/>
 
 
 class Constants(BaseConstants):
+    config = config_py.export_data()
     name_in_url = 'common_value_auction'
     players_per_group = None
-    num_rounds = 1
+    num_rounds = 3
 
     instructions_template = 'common_value_auction/Instructions.html'
 
-    min_allowable_bid = c(0)
-    max_allowable_bid = c(10)
+    min_allowable_bid = 0
+    max_allowable_bid = 300
 
-    # Error margin for the value estimates shown to the players
-    estimate_error_margin = c(1)
+
 
 
 class Subsession(BaseSubsession):
     def creating_session(self):
+        config = Constants.config
+        roundConfig = config[0][self.round_number - 1]
         for g in self.get_groups():
-            item_value = random.uniform(
-                Constants.min_allowable_bid,
-                Constants.max_allowable_bid
-            )
-            g.item_value = round(item_value, 1)
+            g.item_value = roundConfig['cost']
+            g.showGuide = roundConfig['stated']
+            g.valueEstimate = roundConfig['statedPrice']
+            g.ItemImagePath = 'common_value_auction/' + config[0][self.round_number - 1]['fileName']
 
 
 class Group(BaseGroup):
-    item_value = models.CurrencyField(
-        doc="""Common value of the item to be auctioned, random for treatment"""
-    )
+    showGuide = models.BooleanField()
+    item_value = models.FloatField()
+    ItemImagePath = models.StringField()
+    valueEstimate = models.FloatField()
 
-    highest_bid = models.CurrencyField()
+    highest_bid = models.FloatField()
 
     def set_winner(self):
         players = self.get_players()
@@ -54,30 +56,13 @@ class Group(BaseGroup):
             players_with_highest_bid)  # if tie, winner is chosen at random
         winner.is_winner = True
 
-    def generate_value_estimate(self):
-        minimum = self.item_value - Constants.estimate_error_margin
-        maximum = self.item_value + Constants.estimate_error_margin
-        estimate = random.uniform(minimum, maximum)
 
-        estimate = round(estimate, 1)
-
-        if estimate < Constants.min_allowable_bid:
-            estimate = Constants.min_allowable_bid
-        if estimate > Constants.max_allowable_bid:
-            estimate = Constants.max_allowable_bid
-
-        return estimate
 
 
 class Player(BasePlayer):
-    item_value_estimate = models.CurrencyField(
-        doc="""Estimate of the common value, may be different for each player"""
-    )
+    item_value_estimate = models.FloatField()
 
-    bid_amount = models.CurrencyField(
-        min=Constants.min_allowable_bid, max=Constants.max_allowable_bid,
-        doc="""Amount bidded by the player"""
-    )
+    bid_amount = models.FloatField()
 
     is_winner = models.BooleanField(
         initial=False,

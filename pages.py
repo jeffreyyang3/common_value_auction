@@ -4,13 +4,18 @@ from .models import Constants
 
 
 class Introduction(Page):
-    def before_next_page(self):
-        self.player.item_value_estimate = self.group.generate_value_estimate()
-
+   pass
 
 class Bid(Page):
     form_model = 'player'
     form_fields = ['bid_amount']
+    def vars_for_template(self):
+        print(self.group.ItemImagePath)
+        return{
+            'image_path': self.group.ItemImagePath,
+            'showGuide': self.group.showGuide,
+            'guidePrice': self.player.item_value_estimate
+        }
 
 
 class ResultsWaitPage(WaitPage):

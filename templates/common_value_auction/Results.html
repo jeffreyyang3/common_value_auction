@@ -11,7 +11,9 @@
         {% if player.is_winner %}
             You won the auction!
             {% if is_greedy %}
-                However, your bid amount was higher than the actual value of the item. Your payoff is therefore zero.
+                However, your bid amount was higher than the actual value of the item. Your payoff 
+                is therefore {{ payoff }}.
+
             {% elif player.payoff == 0 %}
                 Your payoff, however, is zero.
             {% endif %}

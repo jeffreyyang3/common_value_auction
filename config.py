@@ -2,9 +2,9 @@ import random
 
 data = [
     [
-        {'cost': 100, 'fileName': 'test.jpg', 'stated': True, 'statedPrice': 130},
-        {'cost': 100, 'fileName': 'test.jpg', 'stated': True, 'statedPrice': 120},
-        {'cost': 100, 'fileName': 'test.jpg', 'stated': True, 'statedPrice': 100}
+        {'cost': 100.00, 'fileName': 'test.jpg', 'stated': True, 'statedPrice': 130},
+        {'cost': 100.00, 'fileName': 'test.jpg', 'stated': False, 'statedPrice': 120},
+        {'cost': 100.00, 'fileName': 'test.jpg', 'stated': True, 'statedPrice': 100}
     ]
 ]
 

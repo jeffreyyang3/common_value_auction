@@ -4,7 +4,9 @@ from .models import Constants
 
 
 class Introduction(Page):
-   pass
+    def is_displayed(self):
+        return self.round_number == 1
+
 
 class Bid(Page):
     form_model = 'player'
@@ -28,6 +30,7 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     def vars_for_template(self):
         return {
+            'payoff': self.player.payoff,
             'is_greedy': self.group.item_value - self.player.bid_amount < 0
         }
 

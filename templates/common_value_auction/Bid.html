@@ -6,12 +6,15 @@
 {% endblock %}
 
 {% block content %}
-<img src="{% static image_path %}" style="max-width: 50%; max-height: 50%">
+<img src="{% static image_path %}" style="max-width: 50%; max-height: 50%; 
+margin-bottom: 40px">
+{% if showGuide %}
 
     <p>
         The value of the item is estimated to be {{ group.valueEstimate }}.
 
     </p>
+{% endif %}
 
     <p>
         Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}, inclusive.
@@ -21,6 +24,6 @@
 
     {% next_button %}
 
-    {% include Constants.instructions_template %}
+   
 
 {% endblock %}

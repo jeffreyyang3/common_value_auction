@@ -1,17 +1,8 @@
 from otree.api import (
-    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
-    Currency as c, currency_range
+    models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer
 )
 import random
 from . import config as config_py
-doc = """
-In a common value auction game, players simultaneously bid on the item being
-auctioned.<br/>
-Prior to bidding, they are given an estimate of the actual value of the item.
-This actual value is revealed after the bidding.<br/>
-Bids are private. The player with the highest bid wins the auction, but
-payoff depends on the bid amount and the actual value.<br/>
-"""
 
 
 class Constants(BaseConstants):
@@ -63,6 +54,7 @@ class Player(BasePlayer):
     item_value_estimate = models.FloatField()
 
     bid_amount = models.FloatField()
+    payoff = models.FloatField()
 
     is_winner = models.BooleanField(
         initial=False,
@@ -72,7 +64,6 @@ class Player(BasePlayer):
     def set_payoff(self):
         if self.is_winner:
             self.payoff = self.group.item_value - self.bid_amount
-            if self.payoff < 0:
-                self.payoff = 0
+
         else:
             self.payoff = 0

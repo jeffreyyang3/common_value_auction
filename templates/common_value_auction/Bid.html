@@ -22,13 +22,14 @@
             Your bid can be between {{ Constants.min_allowable_bid }} and {{ group.max_allowable_bid }}, inclusive.
             <br> Keep in mind that you only get one bid.
             
-        </p>
-    <div id="bidArea">
+        </p> 
+    
 
         {% formfield player.bid_amount label="How much are you willing to pay?" %}
 
         {% next_button %}
-    </div>
+        </div>
+    
 
  
 </div>
@@ -37,19 +38,23 @@
 {% block styles %}
     <style>
         #bidImage{
-            width: 350px;
+            width: 30%;
+	        height: 20%;
             border-radius: 3%;
             height: auto;
             border: 2px solid black;
+            float: left;
+            margin: 3%;
             
         }
         #imageDesc{
             margin-left: 2%;
             margin-top: -2%;
+
             
         }
         #container{
-            display:flex;
+          
             position: relative;
         }
         #bidArea{

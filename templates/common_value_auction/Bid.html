@@ -2,28 +2,64 @@
 {% load otree static %}
 
 {% block title %}
-    Bid
+    Common Value Auction
 {% endblock %}
 
 {% block content %}
-<img src="{% static image_path %}" style="max-width: 50%; max-height: 50%; 
-margin-bottom: 40px">
-{% if showGuide %}
+<div id='container'>
+    <img id='bidImage' src="{% static image_path %}">
+    <div id="imageDesc">
+    {% if showGuide %}
+        
+        <p> <br>
+            The value of this item is about {{ group.valueEstimate }} dollars. <br>
 
-    <p>
-        The value of the item is estimated to be {{ group.valueEstimate }}.
+        
+    {% endif %}
 
-    </p>
-{% endif %}
+        
+            
+            Your bid can be between {{ Constants.min_allowable_bid }} and {{ group.max_allowable_bid }}, inclusive.
+            <br> Keep in mind that you only get one bid.
+            
+        </p>
+    <div id="bidArea">
 
-    <p>
-        Please make your bid now. The amount can be between {{ Constants.min_allowable_bid }} and {{ Constants.max_allowable_bid }}, inclusive.
-    </p>
+        {% formfield player.bid_amount label="How much are you willing to pay?" %}
 
-    {% formfield player.bid_amount label="Bid amount" %}
+        {% next_button %}
+    </div>
 
-    {% next_button %}
+ 
+</div>
 
-   
+{% endblock %}
+{% block styles %}
+    <style>
+        #bidImage{
+            width: 350px;
+            border-radius: 3%;
+            height: auto;
+            border: 2px solid black;
+            
+        }
+        #imageDesc{
+            margin-left: 2%;
+            margin-top: -2%;
+            
+        }
+        #container{
+            display:flex;
+            position: relative;
+        }
+        #bidArea{
+            margin-bottom: -1%;
+            position: absolute;
+            bottom: 0px;
+            
+
+        }
+
+    </style>
 
 {% endblock %}

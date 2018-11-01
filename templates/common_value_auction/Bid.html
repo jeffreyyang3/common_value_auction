@@ -4,55 +4,135 @@
 {% block title %}
     Common Value Auction
 {% endblock %}
-{% block scripts %}
+{% block app_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script>
-        var button = document.getElementsByClassName('otree-btn-next')[0]
-        var chatInput = document.getElementsByClassName("otree-chat__input")[0]
-        var chatSend = document.getElementsByClassName('otree-chat__btn-send')[0]
-        var priceInput = document.getElementById("id_bid_amount")
-        window.onload = function(e){
-            button.addEventListener("click", function() {
-                chatInput.value = "Bid $" + priceInput.value
-                chatSend.click()
+        var vm = new Vue({
+            el: '#vBids',
             
-            })
-            
-        }
+            data: {
+                button: undefined,
+                chatInput: undefined,
+                chatSend: undefined,
+                priceInput: undefined,
+                chatMessages: [],
+                chatNames: [],
+                yourTurn: true,
+      
+
+                
+            },
+       
+
+            watch:{
+                chatNames: function(){
+                    console.log("asdf")
+                }
+
+            },
+
+            methods:{
+                
+                setVars: function(){
+                    this.chatMessages = document.getElementsByClassName("otree-chat__nickname")
+                    
+                    
+                    this.button = document.getElementsByClassName('otree-btn-next')[0]
+                    
+                    this.chatInput = document.getElementsByClassName("otree-chat__input")[0]
+                    this.chatSend = document.getElementsByClassName('otree-chat__btn-send')[0]
+                    this.priceInput = document.getElementById("id_bid_amount")
+                    
+                    this.button.addEventListener("click", function() {
+                        
+                        vm.chatInput.value = "Bid $" + vm.priceInput.value
+                        vm.chatSend.click()
+                        
+                    })
+                   
+                    
+
+                },
+                arrayOps: function(){
+                    setInterval(
+                        function(){
+                            messages = []
+                            for(let i = 0; i < vm.chatMessages.length; i++){
+                                messages.push(vm.chatMessages[i].innerText.slice(7))
+                            }
+                            vm.chatNames = messages
+                            
+                   
+
+                        }, 1000)
+                    
+                }
+                
+
+
+            },
+            mounted(){
+                this.setVars()
+                this.arrayOps()
+           
+            }
+
+        });
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     </script>
+
+   
 
 {% endblock %}
 
 {% block content %}
-<div id='container'>
-    <img id='bidImage' src="{% static image_path %}">
-    <div id="imageDesc">
-    {% if showGuide %}
-        
-        <p> <br>
-            The value of this item is about {{ group.valueEstimate }} dollars. <br>
+    <input type="hidden">
 
-        
-    {% endif %}
+    <div id='container'>
+        <img id='bidImage' src="{% static image_path %}">
+        <div id="imageDesc">
+        {% if showGuide %}
+            
+            <p> <br>
+                The value of this item is about {{ group.valueEstimate }} dollars. <br>
 
-        
             
-            Your bid can be between {{ Constants.min_allowable_bid }} and {{ group.max_allowable_bid }}, inclusive.
-            <br> Keep in mind that you only get one bid.
+        {% endif %}
+
             
-        </p> 
+                
+                Your bid can be between {{ Constants.min_allowable_bid }} and {{ group.max_allowable_bid }}, inclusive.
+                <br> Keep in mind that you only get one bid.
+                
+            </p> 
+        <div id="vBids">
+            <div v-if="yourTurn">
+
+                {% formfield player.bid_amount label="How much are you willing to pay?" %}
+                {% next_button %}
+            </div>
+
+            
+            </div>
+            
+            
+            
+
     
+    </div>
 
-        {% formfield player.bid_amount label="How much are you willing to pay?" %}
-
-        
-        </div>
-        {% next_button %}
-        
-        
-
- 
 </div>
 {% chat nickname=player.nickname %}
+
 
 
 
@@ -76,7 +156,7 @@
             
         }
         #container{
-            margin-bottom: 100px;
+            margin-bottom: 200px;
           
             position: relative;
         }
@@ -86,7 +166,17 @@
             bottom: 0px;
             
 
+        }/*
+        .otree-chat__messages{
+            background: white !important;
+            border: none !important;
+
+
         }
+        .otree-chat__input,.otree-chat__btn-send{
+            
+            display: none
+        }*/
 
     </style>
 

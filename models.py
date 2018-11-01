@@ -23,15 +23,21 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         config = Constants.config
         roundConfig = config[0][self.round_number - 1]
+        for player in self.get_players():
+
+                player.nickname = "Player " + str(player.id_in_group + 1)
         for g in self.get_groups():
+            g.sequential = roundConfig['sequential']
             g.item_value = roundConfig['cost']
             g.showGuide = roundConfig['stated']
             g.valueEstimate = roundConfig['statedPrice']
             g.max_allowable_bid = random.randint(int(g.item_value *2), int(g.item_value * 4))
             g.ItemImagePath = 'common_value_auction/' + config[0][self.round_number - 1]['fileName']
+            
 
 
 class Group(BaseGroup):
+    sequential = models.BooleanField()
     showGuide = models.BooleanField()
     item_value = models.FloatField()
     ItemImagePath = models.StringField()
@@ -54,6 +60,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     item_value_estimate = models.FloatField()
+    nickname = models.CharField()
 
     bid_amount = models.FloatField()
     payoff = models.FloatField()

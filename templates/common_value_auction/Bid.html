@@ -4,6 +4,23 @@
 {% block title %}
     Common Value Auction
 {% endblock %}
+{% block scripts %}
+    <script>
+        var button = document.getElementsByClassName('otree-btn-next')[0]
+        var chatInput = document.getElementsByClassName("otree-chat__input")[0]
+        var chatSend = document.getElementsByClassName('otree-chat__btn-send')[0]
+        var priceInput = document.getElementById("id_bid_amount")
+        window.onload = function(e){
+            button.addEventListener("click", function() {
+                chatInput.value = "Bid $" + priceInput.value
+                chatSend.click()
+            
+            })
+            
+        }
+    </script>
+
+{% endblock %}
 
 {% block content %}
 <div id='container'>
@@ -27,12 +44,17 @@
 
         {% formfield player.bid_amount label="How much are you willing to pay?" %}
 
-        {% next_button %}
+        
         </div>
-    
+        {% next_button %}
+        
+        
 
  
 </div>
+{% chat nickname=player.nickname %}
+
+
 
 {% endblock %}
 {% block styles %}
@@ -54,6 +76,7 @@
             
         }
         #container{
+            margin-bottom: 100px;
           
             position: relative;
         }

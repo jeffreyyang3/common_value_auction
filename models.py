@@ -25,7 +25,7 @@ class Subsession(BaseSubsession):
         roundConfig = config[0][self.round_number - 1]
         for player in self.get_players():
 
-                player.nickname = "Player " + str(player.id_in_group + 1)
+                player.nickname = "Player " + str(player.id_in_group)
         for g in self.get_groups():
             g.sequential = roundConfig['sequential']
             g.item_value = roundConfig['cost']

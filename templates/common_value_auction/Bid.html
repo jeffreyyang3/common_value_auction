@@ -17,7 +17,8 @@
                 priceInput: undefined,
                 chatMessages: [],
                 chatNames: [],
-                yourTurn: true,
+                yourTurn: false,
+                playerNumber: undefined
       
 
                 
@@ -26,7 +27,11 @@
 
             watch:{
                 chatNames: function(){
-                    console.log("asdf")
+              
+       
+                    if(this.chatNames.indexOf(this.playerNumber - 1) > -1){
+                        this.yourTurn = true
+                    }
                 }
 
             },
@@ -42,13 +47,20 @@
                     this.chatInput = document.getElementsByClassName("otree-chat__input")[0]
                     this.chatSend = document.getElementsByClassName('otree-chat__btn-send')[0]
                     this.priceInput = document.getElementById("id_bid_amount")
-                    
+                    this.playerNumber = parseInt(document.getElementById("playerName").value)
+                    if(this.playerNumber == 1){
+                        this.yourTurn = true
+
+                    }
                     this.button.addEventListener("click", function() {
+                        console.log("clicked")
                         
                         vm.chatInput.value = "Bid $" + vm.priceInput.value
                         vm.chatSend.click()
                         
                     })
+                    
+                    
                    
                     
 
@@ -56,11 +68,13 @@
                 arrayOps: function(){
                     setInterval(
                         function(){
+                            
                             messages = []
                             for(let i = 0; i < vm.chatMessages.length; i++){
-                                messages.push(vm.chatMessages[i].innerText.slice(7))
+                                messages.push(parseInt(vm.chatMessages[i].innerText.slice(7)))
                             }
                             vm.chatNames = messages
+                        
                             
                    
 
@@ -95,7 +109,7 @@
 {% endblock %}
 
 {% block content %}
-    <input type="hidden">
+    <input type="hidden" id="playerName" value='{{ player.id_in_group }}'>
 
     <div id='container'>
         <img id='bidImage' src="{% static image_path %}">
@@ -115,14 +129,22 @@
                 
             </p> 
         <div id="vBids">
-            <div v-if="yourTurn">
+            <div v-show="yourTurn">
 
                 {% formfield player.bid_amount label="How much are you willing to pay?" %}
                 {% next_button %}
+                
+                
             </div>
+            <div v-show="!yourTurn">
+                please wait for the others
+            </div>
+            
+            
 
             
             </div>
+            {% chat nickname=player.nickname %}
             
             
             
@@ -131,7 +153,7 @@
     </div>
 
 </div>
-{% chat nickname=player.nickname %}
+
 
 
 

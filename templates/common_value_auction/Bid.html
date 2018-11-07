@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script>
         var vm = new Vue({
+            delimiters: ['{(', ')}'],
             el: '#vBids',
             
             data: {
@@ -20,7 +21,8 @@
                 yourTurn: false,
                 playerNumber: undefined,
                 bidMean: undefined,
-                bidMedian: undefined
+                bidMedian: undefined,
+                bidAmounts: [],
       
 
                 
@@ -53,12 +55,12 @@
                     //console.log(this.chatNames)
                  
                     //inefficient but who cares
-                    bidAmounts = []
+                    this.bidAmounts = []
                     for(let i = 0; i < this.chatNames.length; i++){
-                        bidAmounts.push(parseInt(this.bids[i].innerText))
+                        this.bidAmounts.push(parseInt(this.bids[i].innerText))
                     }
-                    this.bidMean = mean(bidAmounts)
-                    this.bidMedian = median(bidAmounts)
+                    this.bidMean = mean(this.bidAmounts)
+                    this.bidMedian = median(this.bidAmounts)
                     meanDisplay = document.getElementById("mean")
                     medianDisplay = document.getElementById("median")
                     meanDisplay.innerText = "Mean: " + this.bidMean
@@ -126,7 +128,7 @@
                             
                    
 
-                        }, 1000)
+                        }, 300)
                     
                 }
                 
@@ -178,24 +180,31 @@
             </p> 
         <div id="vBids">
             <div v-show="yourTurn">
-                <h4>It's your turn!</h4>
+                It's your turn!
 
                 {% formfield player.bid_amount label="How much are you willing to pay?" %}
                 {% next_button %}
+                <br>
                 
                 
             </div>
             <div v-show="!yourTurn">
                     <h4>Wait for your turn. You are # <span id="position"></span> in queue.</h4>
             </div>
+            <div id ="bidInfo" v-show="bidAmounts.length != 0">
             <h5>Previous Bids:</h5>
+            <ul>
+                <li v-for='bid in bidAmounts'> {(bid)} </li>
+            </ul>
             <span id="median">Median: </span>, <span id="mean">Mean: </span>
+        </div>
             
             
 
             
             </div>
             {% chat nickname=player.nickname %}
+            
             
             
             
@@ -212,6 +221,9 @@
 {% endblock %}
 {% block styles %}
     <style>
+        #bidInfo{
+            clear:left
+        }
         .otree-chat{
             float: left;
             display: none

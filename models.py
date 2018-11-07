@@ -47,6 +47,7 @@ class Group(BaseGroup):
     highest_bid = models.FloatField()
 
     def set_winner(self):
+        print("set winner")
         players = self.get_players()
         self.highest_bid = max([p.bid_amount for p in players])
 

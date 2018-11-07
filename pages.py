@@ -22,6 +22,7 @@ class Bid(Page):
 
 class NonSeqWait(WaitPage):
     def is_displayed(self):
+        print(self.player.bid_amount)
         return not self.group.sequential
     def vars_for_template(self):
         return{
@@ -35,6 +36,10 @@ class SeqWait(WaitPage):
     template_name = 'common_value_auction/SeqWait.html'
     def is_displayed(self):
         return self.group.sequential
+    def after_all_players_arrive(self):
+        self.group.set_winner()
+        for p in self.group.get_players():
+            p.set_payoff()
 
 
 class Results(Page):

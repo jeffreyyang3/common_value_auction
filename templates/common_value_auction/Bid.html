@@ -18,7 +18,9 @@
                 chatMessages: [],
                 chatNames: [],
                 yourTurn: false,
-                playerNumber: undefined
+                playerNumber: undefined,
+                bidMean: undefined,
+                bidMedian: undefined
       
 
                 
@@ -27,19 +29,64 @@
 
             watch:{
                 chatNames: function(){
-              
-       
-                    if(this.chatNames.indexOf(this.playerNumber - 1) > -1){
+                    function mean(numbers){
+                        var total = 0, i;
+                        for (i = 0; i < numbers.length; i += 1) {
+                            total += numbers[i];
+                        }
+                        return total / numbers.length;
+                    }
+                    function median(numbers){
+                        var median = 0, numsLen = numbers.length;
+                        numbers.sort();
+                    
+                        if (numsLen % 2 === 0) {
+                            // average of two middle numbers
+                            median = (numbers[numsLen / 2 - 1] + numbers[numsLen / 2]) / 2;
+                        } else { // is odd
+                            // middle number only
+                            median = numbers[(numsLen - 1) / 2];
+                        }
+    
+                        return median;
+                    }
+                    //console.log(this.chatNames)
+                 
+                    //inefficient but who cares
+                    bidAmounts = []
+                    for(let i = 0; i < this.chatNames.length; i++){
+                        bidAmounts.push(parseInt(this.bids[i].innerText))
+                    }
+                    this.bidMean = mean(bidAmounts)
+                    this.bidMedian = median(bidAmounts)
+                    meanDisplay = document.getElementById("mean")
+                    medianDisplay = document.getElementById("median")
+                    meanDisplay.innerText = "Mean: " + this.bidMean
+                    medianDisplay.innerText = "Median: " + this.bidMedian
+
+           
+                    if(this.chatNames.length >= parseInt(this.playerNumber) - 1){
                         this.yourTurn = true
                     }
+                    else{
+                        queuePosition = document.getElementById('position')
+                        queuePosition.innerText = parseInt(this.playerNumber) - this.chatNames.length - 1
+                    }
+
+              
+       
+               
                 }
 
             },
 
             methods:{
+             
                 
                 setVars: function(){
                     this.chatMessages = document.getElementsByClassName("otree-chat__nickname")
+                    this.bids = document.getElementsByClassName("otree-chat__body")
+
                     
                     
                     this.button = document.getElementsByClassName('otree-btn-next')[0]
@@ -54,8 +101,9 @@
                     }
                     this.button.addEventListener("click", function() {
                         console.log("clicked")
+                        vm.chatInput.value = vm.priceInput.value
                         
-                        vm.chatInput.value = "Bid $" + vm.priceInput.value
+                        //vm.chatInput.value = "Bid $" + vm.priceInput.value
                         vm.chatSend.click()
                         
                     })
@@ -68,10 +116,10 @@
                 arrayOps: function(){
                     setInterval(
                         function(){
-                            
+              
                             messages = []
                             for(let i = 0; i < vm.chatMessages.length; i++){
-                                messages.push(parseInt(vm.chatMessages[i].innerText.slice(7)))
+                                messages.push(vm.chatMessages[i].innerText.slice(7))
                             }
                             vm.chatNames = messages
                         
@@ -130,6 +178,7 @@
             </p> 
         <div id="vBids">
             <div v-show="yourTurn">
+                <h4>It's your turn!</h4>
 
                 {% formfield player.bid_amount label="How much are you willing to pay?" %}
                 {% next_button %}
@@ -137,8 +186,10 @@
                 
             </div>
             <div v-show="!yourTurn">
-                please wait for the others
+                    <h4>Wait for your turn. You are # <span id="position"></span> in queue.</h4>
             </div>
+            <h5>Previous Bids:</h5>
+            <span id="median">Median: </span>, <span id="mean">Mean: </span>
             
             
 
@@ -161,6 +212,10 @@
 {% endblock %}
 {% block styles %}
     <style>
+        .otree-chat{
+            float: left;
+            display: none
+        }
         #bidImage{
             width: 30%;
 	        height: 20%;

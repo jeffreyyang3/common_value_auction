@@ -7,22 +7,18 @@
 {% block app_scripts %}
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script>
-        var vm = new Vue({
+        var vm = new Vue({ //todo: clean up code, comment
             delimiters: ['{(', ')}'],
             el: '#vBids',
             
             data: {
-                button: undefined,
-                chatInput: undefined,
-                chatSend: undefined,
-                priceInput: undefined,
                 chatMessages: [],
                 chatNames: [],
                 yourTurn: false,
-                playerNumber: undefined,
-                bidMean: undefined,
-                bidMedian: undefined,
+
                 bidAmounts: [],
+                displayRange:  9999999,
+                
       
 
                 
@@ -40,14 +36,14 @@
                     }
                     function median(numbers){
                         var median = 0, numsLen = numbers.length;
-                        numbers.sort();
+                        temp = numbers.slice(0)
                     
                         if (numsLen % 2 === 0) {
                             // average of two middle numbers
-                            median = (numbers[numsLen / 2 - 1] + numbers[numsLen / 2]) / 2;
+                            median = (temp[numsLen / 2 - 1] + temp[numsLen / 2]) / 2;
                         } else { // is odd
                             // middle number only
-                            median = numbers[(numsLen - 1) / 2];
+                            median = temp[(numsLen - 1) / 2];
                         }
     
                         return median;
@@ -59,12 +55,18 @@
                     for(let i = 0; i < this.chatNames.length; i++){
                         this.bidAmounts.push(parseInt(this.bids[i].innerText))
                     }
-                    this.bidMean = mean(this.bidAmounts)
-                    this.bidMedian = median(this.bidAmounts)
-                    meanDisplay = document.getElementById("mean")
-                    medianDisplay = document.getElementById("median")
-                    meanDisplay.innerText = "Mean: " + this.bidMean
-                    medianDisplay.innerText = "Median: " + this.bidMedian
+                    if(this.bidAmounts.length > displayRange){
+                        this.bidMean = mean(this.bidAmounts.slice(bidAmounts.length - displayRange, bidAmounts.length))
+                        this.bidMedian = median(this.bidAmounts.slice(bidAmounts.length - displayRange, bidAmounts.length))
+                    }
+                    else{
+                        this.bidMean = mean(this.bidAmounts)
+                        this.bidMedian = median(this.bidAmounts)
+                    }
+                    meanDisplay = document.getElementById("meanDisplay")
+                    medianDisplay = document.getElementById("medianDisplay")
+                    meanDisplay.innerText = "Mean of the last " + this.displayRange + " values: " + this.bidMean
+                    medianDisplay.innerText = "Median of the last " + this.displayRange + " values: " + this.bidMedian
 
            
                     if(this.chatNames.length >= parseInt(this.playerNumber) - 1){
@@ -88,6 +90,8 @@
                 setVars: function(){
                     this.chatMessages = document.getElementsByClassName("otree-chat__nickname")
                     this.bids = document.getElementsByClassName("otree-chat__body")
+                    this.displayRange = parseInt(document.getElementById("displayRange").value)
+
 
                     
                     
@@ -160,6 +164,7 @@
 
 {% block content %}
     <input type="hidden" id="playerName" value='{{ player.id_in_group }}'>
+    <input type = "hidden" id = "displayRange" value ='{{ group.displayRange }}'>
 
     <div id='container'>
         <img id='bidImage' src="{% static image_path %}">
@@ -196,7 +201,8 @@
             <ul>
                 <li v-for='bid in bidAmounts'> {(bid)} </li>
             </ul>
-            <span id="median">Median: </span>, <span id="mean">Mean: </span>
+            <h5 id="medianDisplay"></h5> 
+            <h5 id="meanDisplay"> </h5>
         </div>
             
             

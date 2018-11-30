@@ -33,6 +33,7 @@ class Subsession(BaseSubsession):
             g.valueEstimate = roundConfig['statedPrice']
             g.max_allowable_bid = random.randint(int(g.item_value *2), int(g.item_value * 4))
             g.ItemImagePath = 'common_value_auction/' + config[0][self.round_number - 1]['fileName']
+            g.displayRange = roundConfig['displayRange']
             
 
 
@@ -43,6 +44,7 @@ class Group(BaseGroup):
     ItemImagePath = models.StringField()
     valueEstimate = models.FloatField()
     max_allowable_bid = models.IntegerField()
+    displayRange = models.IntegerField()
 
     highest_bid = models.FloatField()
 

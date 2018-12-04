@@ -15,7 +15,8 @@ class Bid(Page):
         print(self.group.ItemImagePath)
         return{
             'image_path': self.group.ItemImagePath,
-            'file_path': 'common_value_auction/bidScript.js',
+            'script_path': 'common_value_auction/bidScript.js',
+            'style_path': 'common_value_auction/bidStyle.css',
             'showGuide': self.group.showGuide,
             'guidePrice': self.player.item_value_estimate
         }
@@ -25,10 +26,7 @@ class NonSeqWait(WaitPage):
     def is_displayed(self):
         print(self.player.bid_amount)
         return not self.group.sequential
-    def vars_for_template(self):
-        return{
-            'nickname': "Player " + str(self.player.id_in_group())
-        }
+
     def after_all_players_arrive(self):
         self.group.set_winner()
         for p in self.group.get_players():
@@ -37,6 +35,11 @@ class SeqWait(WaitPage):
     template_name = 'common_value_auction/SeqWait.html'
     def is_displayed(self):
         return self.group.sequential
+    def vars_for_template(self):
+        return {
+            'script_path': 'common_value_auction/bidScript.js',
+            'style_path': 'common_value_auction/bidStyle.css',
+        }
     def after_all_players_arrive(self):
         self.group.set_winner()
         for p in self.group.get_players():

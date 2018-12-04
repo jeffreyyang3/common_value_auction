@@ -7,7 +7,7 @@
 {% block app_scripts %}
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
  
-    <script src="{% static file_path %}"></script>
+    <script src="{% static script_path %}"></script>
 
    
 
@@ -16,6 +16,8 @@
 {% block content %}
     <input type="hidden" id="playerName" value='{{ player.id_in_group }}'>
     <input type = "hidden" id = "displayRange" value ='{{ group.displayRange }}'>
+    <input type = "hidden" id = "sequential" value = "{{ group.sequential }}">
+    <input type = "hidden" id = "showStats" value = "{{ group.showStats }}">
 
     <div id='container'>
         <img id='bidImage' src="{% static image_path %}">
@@ -35,7 +37,7 @@
                 
             </p> 
         <div id="vBids">
-            <div v-show="yourTurn">
+            <div v-show="yourTurn || !sequential">
                 It's your turn!
 
                 {% formfield player.bid_amount label="How much are you willing to pay?" %}
@@ -44,10 +46,10 @@
                 
                 
             </div>
-            <div v-show="!yourTurn">
+            <div v-show="!yourTurn && sequential">
                     <h4>Wait for your turn. You are # <span id="position"></span> in queue.</h4>
             </div>
-            <div id ="bidInfo" v-show="bidAmounts.length != 0">
+            <div id ="bidInfo" v-show="bidAmounts.length != 0 && showStats">
             <h5>Previous Bids:</h5>
             <ul>
                 <li v-for='bid in bidAmounts'> {(bid)} </li>
@@ -77,52 +79,10 @@
 
 {% endblock %}
 {% block styles %}
-    <style>
-        #bidInfo{
-            clear:left
-        }
-        .otree-chat{
-            float: left;
-            display: none
-        }
-        #bidImage{
-            width: 30%;
-	        height: 20%;
-            border-radius: 3%;
-            height: auto;
-            border: 2px solid black;
-            float: left;
-            margin: 3%;
-            
-        }
-        #imageDesc{
-            margin-left: 2%;
-            margin-top: -2%;
 
-            
-        }
-        #container{
-            margin-bottom: 200px;
-          
-            position: relative;
-        }
-        #bidArea{
-            margin-bottom: -1%;
-            position: absolute;
-            bottom: 0px;
-            
+    <link rel="stylesheet" type="text/css" href="{% static style_path %}">
 
-        }/*
-        .otree-chat__messages{
-            background: white !important;
-            border: none !important;
-
-
-        }
-        .otree-chat__input,.otree-chat__btn-send{
-            
-            display: none
-        }*/
+        
 
     </style>
 

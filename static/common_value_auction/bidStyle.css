@@ -1,0 +1,45 @@
+#bidInfo{
+    clear:left
+}
+.otree-chat{
+    float: left;
+    display: none
+}
+#bidImage{
+    width: 30%;
+    height: 20%;
+    border-radius: 3%;
+    height: auto;
+    border: 2px solid black;
+    float: left;
+    margin: 3%;
+    
+}
+#imageDesc{
+    margin-left: 2%;
+    margin-top: -2%;
+
+    
+}
+#container{
+    margin-bottom: 200px;
+  
+    position: relative;
+}
+#bidArea{
+    margin-bottom: -1%;
+    position: absolute;
+    bottom: 0px;
+    
+
+}/*
+.otree-chat__messages{
+    background: white !important;
+    border: none !important;
+
+
+}
+.otree-chat__input,.otree-chat__btn-send{
+    
+    display: none
+}*/

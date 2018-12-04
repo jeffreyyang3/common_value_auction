@@ -23,11 +23,13 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         config = Constants.config
         roundConfig = config[0][self.round_number - 1]
+        self.group_randomly()
         for player in self.get_players():
 
                 player.nickname = "Player " + str(player.id_in_group)
         for g in self.get_groups():
             g.sequential = roundConfig['sequential']
+            g.showStats = roundConfig['showStats']
             g.item_value = roundConfig['cost']
             g.showGuide = roundConfig['stated']
             g.valueEstimate = roundConfig['statedPrice']
@@ -45,6 +47,7 @@ class Group(BaseGroup):
     valueEstimate = models.FloatField()
     max_allowable_bid = models.IntegerField()
     displayRange = models.IntegerField()
+    showStats = models.BooleanField()
 
     highest_bid = models.FloatField()
 

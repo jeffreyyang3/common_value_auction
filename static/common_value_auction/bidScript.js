@@ -6,6 +6,8 @@ var vm = new Vue({ //todo: clean up code, comment
         chatMessages: [],
         chatNames: [],
         yourTurn: false,
+        sequential: true,
+
 
         bidAmounts: [],
         displayRange:  9999999,
@@ -79,6 +81,7 @@ var vm = new Vue({ //todo: clean up code, comment
      
         
         setVars: function(){
+
             this.chatMessages = document.getElementsByClassName("otree-chat__nickname")
             this.bids = document.getElementsByClassName("otree-chat__body")
             this.displayRange = parseInt(document.getElementById("displayRange").value)
@@ -92,6 +95,13 @@ var vm = new Vue({ //todo: clean up code, comment
             this.chatSend = document.getElementsByClassName('otree-chat__btn-send')[0]
             this.priceInput = document.getElementById("id_bid_amount")
             this.playerNumber = parseInt(document.getElementById("playerName").value)
+            this.sequential = document.getElementById("sequential").value
+            this.sequential = this.sequential == "True" 
+            this.showStats = document.getElementById("showStats").value
+            this.showStats = this.showStats == "True" 
+            
+            
+            
             if(this.playerNumber == 1){
                 this.yourTurn = true
 

@@ -1,20 +1,21 @@
 
 {% extends 'otree/WaitPage.html' %} 
 {% load static otree %}
+{% block scripts %}
+
+
+
+{% endblock %}
 
 
 {% block title %}
-    Waiting for all bids. <br> Current Bids:
+    Waiting for all bids. 
 {% endblock %}
 
 {% block content %}
-    
 
-    
-    
-    <div class="chatbox">
-        {% chat nickname=player.nickname %}
-    </div>
+    {% chat nickname=player.nickname %}
+
     
     
     
@@ -23,8 +24,8 @@
 {% endblock %}
 
 {% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static style_path %}">
 
-<!-- define a style -->
 
 
 

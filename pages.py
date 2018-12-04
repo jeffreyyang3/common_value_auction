@@ -15,6 +15,7 @@ class Bid(Page):
         print(self.group.ItemImagePath)
         return{
             'image_path': self.group.ItemImagePath,
+            'file_path': 'common_value_auction/bidScript.js',
             'showGuide': self.group.showGuide,
             'guidePrice': self.player.item_value_estimate
         }

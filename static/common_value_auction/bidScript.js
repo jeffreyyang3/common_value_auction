@@ -4,22 +4,22 @@ var vm = new Vue({ //todo: clean up code, comment
     
     data: {
         chatMessages: [],
-        chatNames: [],
+     
         yourTurn: false,
         sequential: true,
+        chatNames: [],
 
 
         bidAmounts: [],
         displayRange:  9999999,
         
 
-
-        
     },
 
 
     watch:{
         chatNames: function(){
+            console.log("asfdsadf")
             function mean(numbers){
                 var total = 0, i;
                 for (i = 0; i < numbers.length; i += 1) {
@@ -58,8 +58,10 @@ var vm = new Vue({ //todo: clean up code, comment
             }
             meanDisplay = document.getElementById("meanDisplay")
             medianDisplay = document.getElementById("medianDisplay")
-            meanDisplay.innerText = "Mean of the last " + this.displayRange + " values: " + this.bidMean
-            medianDisplay.innerText = "Median of the last " + this.displayRange + " values: " + this.bidMedian
+            meanDisplay.innerText = `Mean of the last ${this.displayRange} values: ${this.bidMean}`
+            medianDisplay.innerText = `Median of the last ${this.displayRange} values: ${this.bidMedian}`
+          
+
 
    
             if(this.chatNames.length >= parseInt(this.playerNumber) - 1){
@@ -67,6 +69,7 @@ var vm = new Vue({ //todo: clean up code, comment
             }
             else{
                 queuePosition = document.getElementById('position')
+
                 queuePosition.innerText = parseInt(this.playerNumber) - this.chatNames.length - 1
             }
 
@@ -82,7 +85,7 @@ var vm = new Vue({ //todo: clean up code, comment
         
         setVars: function(){
 
-            this.chatMessages = document.getElementsByClassName("otree-chat__nickname")
+            this.chatNames = document.getElementsByClassName("otree-chat__nickname")
             this.bids = document.getElementsByClassName("otree-chat__body")
             this.displayRange = parseInt(document.getElementById("displayRange").value)
 
@@ -120,6 +123,7 @@ var vm = new Vue({ //todo: clean up code, comment
             
 
         },
+        
         arrayOps: function(){
             setInterval(
                 function(){
@@ -135,12 +139,13 @@ var vm = new Vue({ //todo: clean up code, comment
 
                 }, 300)
             
-        }
+        } 
         
 
 
     },
     mounted(){
+        console.log("asdfdsa")
         this.setVars()
         this.arrayOps()
    

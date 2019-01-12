@@ -17,12 +17,14 @@ class Bid(Page):
             'image_path': self.group.ItemImagePath,
             'script_path': 'common_value_auction/bidScript.js',
             'style_path': 'common_value_auction/bidStyle.css',
+            'vue_path': 'common_value_auction/vue.js',
             'showGuide': self.group.showGuide,
             'guidePrice': self.player.item_value_estimate
         }
 
 
 class NonSeqWait(WaitPage):
+    template_name = 'common_value_auction/NonSeqWait.html'
     def is_displayed(self):
         print(self.player.bid_amount)
         return not self.group.sequential

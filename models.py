@@ -3,6 +3,7 @@ from otree.api import (
 )
 import random
 from . import config as config_py
+import json
 
 
 class Constants(BaseConstants):
@@ -36,10 +37,16 @@ class Subsession(BaseSubsession):
             g.max_allowable_bid = random.randint(int(g.item_value *2), int(g.item_value * 4))
             g.ItemImagePath = 'common_value_auction/' + config[0][self.round_number - 1]['fileName']
             g.displayRange = roundConfig['displayRange']
+            coins = roundConfig['coins']
+            g.pennies = coins[0]
+            g.nickels = coins[1]
+            g.dimes = coins[2]
+            g.quarters = coins[3]
             
 
 
 class Group(BaseGroup):
+    
     sequential = models.BooleanField()
     showGuide = models.BooleanField()
     item_value = models.FloatField()
@@ -48,8 +55,11 @@ class Group(BaseGroup):
     max_allowable_bid = models.IntegerField()
     displayRange = models.IntegerField()
     showStats = models.BooleanField()
-
     highest_bid = models.FloatField()
+    pennies = models.IntegerField()
+    nickels = models.IntegerField()
+    dimes = models.IntegerField()
+    quarters = models.IntegerField()
 
     def set_winner(self):
         print("set winner")

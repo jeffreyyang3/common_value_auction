@@ -12,14 +12,18 @@ class Bid(Page):
     form_model = 'player'
     form_fields = ['bid_amount']
     def vars_for_template(self):
-        print(self.group.ItemImagePath)
+        
         return{
             'image_path': self.group.ItemImagePath,
             'script_path': 'common_value_auction/bidScript.js',
             'style_path': 'common_value_auction/bidStyle.css',
             'vue_path': 'common_value_auction/vue.js',
             'showGuide': self.group.showGuide,
-            'guidePrice': self.player.item_value_estimate
+            'guidePrice': self.player.item_value_estimate,
+            'pennies': self.group.pennies,
+            'nickels': self.group.nickels,
+            'dimes': self.group.dimes,
+            'quarters': self.group.quarters
         }
 
 
@@ -33,6 +37,7 @@ class NonSeqWait(WaitPage):
         self.group.set_winner()
         for p in self.group.get_players():
             p.set_payoff()
+
 class SeqWait(WaitPage):
     template_name = 'common_value_auction/SeqWait.html'
     def is_displayed(self):

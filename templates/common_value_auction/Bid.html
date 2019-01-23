@@ -9,6 +9,70 @@
  
     <script src="{% static script_path %}"></script>
 
+    
+
+
+    
+
+    <script>
+      let c = document.getElementById("myCanvas");
+      c.width  = 400;
+      c.height = 400;
+      
+      let ctx = c.getContext("2d");
+      let pennyInput = {{ pennies }};
+      let nickelInput = {{ nickels }};
+      let dimeInput = {{ dimes }};
+      let quarterInput = {{ quarters }};
+      let totalValue = .01 * pennyInput + .05 * nickelInput + .1 * dimeInput
+      + .25 * quarterInput;
+      drawCoins = (pennies, nickels, dimes, quarters) => {
+          document.getElementById("valueDisplay").innerHTML = totalValue.toFixed(2)
+          // drawing pennies
+          for(let i = 0; i < pennies; i++){
+              ctx.beginPath();
+              ctx.arc(Math.random() * c.width , 
+              Math.random() * c.height, 10, 0, 2 * Math.PI);
+              ctx.fillStyle = "#ad6f69"
+              ctx.fill();
+              ctx.stroke();
+          }
+          // drawing nickels
+          for(let i = 0; i < nickels; i++){
+              ctx.beginPath();
+              ctx.arc(Math.random() * c.width , 
+              Math.random() * c.height, 13, 0, 2 * Math.PI);
+              ctx.fillStyle = "silver"
+              ctx.fill();
+              ctx.stroke();
+          }
+          // drawing dimes
+          for(let i = 0; i < dimes; i++){
+              ctx.beginPath();
+              ctx.arc(Math.random() * c.width , 
+              Math.random() * c.height, 8, 0, 2 * Math.PI);
+              ctx.fillStyle = "silver"
+              ctx.fill();
+              ctx.stroke();
+          }
+    
+          // drawing quarters
+          for(let i = 0; i < quarters; i++){
+              ctx.beginPath();
+              ctx.arc(Math.random() * c.width , 
+              Math.random() * c.height, 16, 0, 2 * Math.PI);
+              ctx.fillStyle = "silver"
+              ctx.fill();
+              ctx.stroke();
+    
+          }
+      }
+      drawCoins(pennyInput, nickelInput, dimeInput, quarterInput)
+    
+      
+    
+    </script>
+
    
 
 {% endblock %}
@@ -20,7 +84,9 @@
     <input type = "hidden" id = "showStats" value = "{{ group.showStats }}">
 
     <div id='container'>
-        <img id='bidImage' src="{% static image_path %}">
+        <canvas id="myCanvas" style="margin: 30px; " width="400" height="400"></canvas>
+
+        <h3> Total Value: <span id="valueDisplay"></span></h3>
         <div id="imageDesc">
         {% if showGuide %}
             

@@ -27,7 +27,7 @@
       let totalValue = .01 * pennyInput + .05 * nickelInput + .1 * dimeInput
       + .25 * quarterInput;
       drawCoins = (pennies, nickels, dimes, quarters) => {
-          document.getElementById("valueDisplay").innerHTML = totalValue.toFixed(2)
+      
           // drawing pennies
           for(let i = 0; i < pennies; i++){
               ctx.beginPath();
@@ -84,10 +84,11 @@
     <input type = "hidden" id = "showStats" value = "{{ group.showStats }}">
 
     <div id='container'>
-        <canvas id="myCanvas" style="margin: 30px; " width="400" height="400"></canvas>
+        <canvas id="myCanvas"  width="400" height="400"></canvas>
 
-        <h3> Total Value: <span id="valueDisplay"></span></h3>
+       
         <div id="imageDesc">
+            <div id="itemInfo">
         {% if showGuide %}
             
             <p> <br>
@@ -102,6 +103,7 @@
                 <br> Keep in mind that you only get one bid.
                 
             </p> 
+        </div>
         <div id="vBids">
             <div v-show="yourTurn || !sequential">
                 It's your turn!
@@ -143,13 +145,96 @@
 
 
 
+
 {% endblock %}
 {% block styles %}
+<style>
 
-    <link rel="stylesheet" type="text/css" href="{% static style_path %}">
 
-        
 
-    </style>
+#bidInfo{
+    clear:left
+}
+.otree-chat{
+    float: left;
+    display: none
+}
+#bidImage{
+    width: 30%;
+    height: 20%;
+    border-radius: 3%;
+    height: auto;
+    border: 2px solid black;
+    float: left;
+    margin: 3%;
+    
+}
+
+#itemInfo{
+    order: 1
+}
+#vBids{
+    order: 2;
+
+
+}
+#myCanvas{
+    order: 1;
+    border-radius: 3px;
+    border: 1px solid black;
+}
+
+#imageDesc{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+
+    order: 2;
+    justify-content:  space-between;
+
+    
+}
+
+#container{
+    margin-bottom: 200px;
+    display: flex;
+
+}
+#bidArea{
+   align-self: flex-end;
+   order: 1;
+    
+
+}/*
+.otree-chat__messages{
+    background: white !important;
+    border: none !important;
+
+
+}
+.otree-chat__input,.otree-chat__btn-send{
+    
+    display: none
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
 
 {% endblock %}

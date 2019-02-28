@@ -67,7 +67,36 @@
     
           }
       }
-      drawCoins(pennyInput, nickelInput, dimeInput, quarterInput)
+        drawCoins(pennyInput, nickelInput, dimeInput, quarterInput)
+        let legend = document.getElementById('legend')
+        let lctx = legend.getContext('2d')
+        lctx.beginPath();
+        lctx.arc(.2 * legend.width , 
+        .5 * legend.height, 10, 0, 2 * Math.PI);
+        lctx.fillStyle = "#ad6f69"
+        lctx.fill();
+        lctx.stroke();
+
+        lctx.beginPath();
+        lctx.arc(.4 * legend.width , 
+        .5 * legend.height, 13, 0, 2 * Math.PI);
+        lctx.fillStyle = "silver"
+        lctx.fill();
+        lctx.stroke();
+
+        lctx.beginPath();
+        lctx.arc(.6 * legend.width , 
+        .5 * legend.height, 8, 0, 2 * Math.PI);
+        lctx.fillStyle = "silver"
+        lctx.fill();
+        lctx.stroke();
+
+        lctx.beginPath();
+        lctx.arc(.8 * legend.width , 
+        .5 * legend.height, 16, 0, 2 * Math.PI);
+        lctx.fillStyle = "silver"
+        lctx.fill();
+        lctx.stroke();
     
       
     
@@ -85,6 +114,7 @@
 
     <div id='container'>
         <canvas id="myCanvas"  width="400" height="400"></canvas>
+        
 
        
         <div id="imageDesc">
@@ -125,11 +155,18 @@
             <h5 id="medianDisplay"></h5> 
             <h5 id="meanDisplay"> </h5>
         </div>
+        &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp penny  
+         &nbsp&nbsp  nickel &nbsp&nbsp &nbsp&nbsp&nbsp&nbsp &nbsp&nbsp   dime 
+         
+         &nbsp&nbsp   &nbsp&nbsp &nbsp&nbsp&nbsp&nbsp quarter
+        <canvas id="legend" width="400" height="100"></canvas>
+        
             
             
 
             
             </div>
+            
             {% chat nickname=player.nickname %}
             
             
@@ -138,8 +175,10 @@
 
     
     </div>
-
+    
 </div>
+
+
 
 
 

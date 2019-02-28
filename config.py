@@ -20,7 +20,8 @@ data = [
 ]
 
 def shuffle(data):
-    return[random.sample(data[0], k=len(data[0]))]
+    return data
+    #return[random.sample(data[0], k=len(data[0]))]
 
 def export_data():
     return shuffle(data)
